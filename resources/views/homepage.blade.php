@@ -40,7 +40,7 @@
               <label for="password-register-confirm" class="text-muted mb-1"><small>Confirm Password</small></label>
               <input name="password_confirmation" id="password-register-confirm" class="form-control" type="password" placeholder="Confirm password" />
 
-              @error('username')
+              @error('password_confirmation')
                   <p class="m-0 small alert alert-danger shadow-sm">{{$message}}</p>
               @enderror
             </div>
