@@ -6,8 +6,3 @@
         </div>
       </div>
 </x-layout>
-
-{{-- ======================
-    Check how this gets the user's name into the text
-    versus how it's done on Laragigs
-    Love ya, buddy! --}}
