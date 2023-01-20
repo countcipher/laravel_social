@@ -28,3 +28,7 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('auth'); //Use this middleware so only logged in users trigger this route
 Route::post('/create-post', [PostController::class, 'storeNewPost'])->middleware('mustBeLoggedIn'); //Custom middleware
 Route::get('/post/{post}', [PostController::class, 'viewSinglePost']);
+
+//Profile-related Routes
+//=========================================================
+Route::get('/profile/{user:username}', [UserController::class, 'profile']); //Adding ':username' to the variable forces to Laravel to look up by username instead of id

@@ -8,6 +8,16 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function profile(User $user){
+        //return $user->posts()->get(); //This method is set up in the User model; creates relationship between User and Post
+        
+        return view('profile-posts', [
+            'user' =>  $user, //Passing in data that will be converted to a variable for view this is going to
+            'posts' =>  $user->posts()->latest()->get(),
+            'postCount' =>  $user->posts()->count()
+        ]);
+    }
+
     public function logout(){
         auth()->logout();
         return redirect('/')->with('success', 'You are now logged out');
