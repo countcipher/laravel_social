@@ -15,16 +15,16 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', [UserController::class, 'showCorrectHomepage']);
+Route::get('/', [UserController::class, 'showCorrectHomepage'])->name('home');
 
-Route::post('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'register'])->middleware('guest');
 
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'login'])->middleware('guest');
 
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 //Blog post related routes
 //========================================================
-Route::get('/create-post', [PostController::class, 'showCreateForm']);
-Route::post('/create-post', [PostController::class, 'storeNewPost']);
+Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('auth'); //Use this middleware so only logged in users trigger this route
+Route::post('/create-post', [PostController::class, 'storeNewPost'])->middleware('mustBeLoggedIn'); //Custom middleware
 Route::get('/post/{post}', [PostController::class, 'viewSinglePost']);

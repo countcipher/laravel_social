@@ -3,14 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
     public function viewSinglePost(POST $post){
+        
+        $post['body'] = strip_tags(Str::markdown($post->body), '<p><ul><ol><li><strong><em><a>');
+
         return view('single-post', [
             'post'  =>  $post
         ]);
+
+        /**
+         * To get the information of the user that posted
+         * the post, create the realtionship in the Post.php model
+         */
     }
 
     public function storeNewPost(Request $request){
@@ -21,9 +30,11 @@ class PostController extends Controller
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
-        $incomingFields['user_id'] = auth()->id(); //Gets user id from user model
+        $incomingFields['user_id'] = auth()->id(); //Gets user id from User model
 
-        Post::create($incomingFields);
+        $newPost = Post::create($incomingFields);
+
+        return redirect("/post/{$newPost->id}")->with('success', 'New post successfully created');
     }
 
     public function showCreateForm(){
