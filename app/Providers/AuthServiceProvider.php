@@ -13,6 +13,7 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
+        Post::class => PostPolicy::class //This policy was added in.  It is the PostPolicy found in the Policies folder. --count cipher
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 

@@ -10,6 +10,7 @@ class PostController extends Controller
 {
     public function viewSinglePost(POST $post){
         
+        
         $post['body'] = strip_tags(Str::markdown($post->body), '<p><ul><ol><li><strong><em><a>');
 
         return view('single-post', [
