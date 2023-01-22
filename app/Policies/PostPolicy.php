@@ -54,7 +54,7 @@ class PostPolicy
     public function update(User $user, Post $post)
     {
         //
-        return $user->id === $post->user_id; //This is added to the AuthServiceProvider.php file in the Providers folder --Count Cipher
+        return $user->id === $post->user_id || $user->isAdmin === 1; //This is added to the AuthServiceProvider.php file in the Providers folder --Count Cipher
     }
 
     /**
@@ -66,7 +66,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        return $user->id === $post->user_id;  //This is added to the AuthServiceProvider.php file in the Providers folder --Count Cipher
+        return $user->id === $post->user_id || $user->isAdmin === 1;  //This is added to the AuthServiceProvider.php file in the Providers folder --Count Cipher
     }
 
     /**

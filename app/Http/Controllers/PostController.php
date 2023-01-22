@@ -19,7 +19,7 @@ class PostController extends Controller
 
         $post->update($incomingFields);
 
-        return redirect('/profile/' . auth()->user()->username);
+        return back()->with('success', 'Post updated');
     }   
 
     public function showEditForm(Post $post){
