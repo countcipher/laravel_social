@@ -28,6 +28,7 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 Route::get('/create-post', [PostController::class, 'showCreateForm'])->middleware('auth'); //Use this middleware so only logged in users trigger this route
 Route::post('/create-post', [PostController::class, 'storeNewPost'])->middleware('mustBeLoggedIn'); //Custom middleware
 Route::get('/post/{post}', [PostController::class, 'viewSinglePost']);
+Route::delete('/post/{post}', [PostController::class, 'delete']);
 
 //Profile-related Routes
 //=========================================================
