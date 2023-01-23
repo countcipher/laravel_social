@@ -5,15 +5,44 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    public function storeAvatar(Request $request){
+        //$request->file('avatar')->store('public/avatars');
+
+        $request->validate([
+            'avatar'    =>  'required|image|max:3000'
+        ]);
+
+        //$request->file('avatar')->store('public/avatars');
+
+        $user = auth()->user();
+
+        $filename = $user->id . '-' . uniqid() . '.jpg';
+
+        //Run the command 'composer require intervention/image' for using Image (image resizing capabilities) -- count cipher
+        $imgData = Image::make($request->file('avatar'))->fit(120)->encode('jpg');
+        Storage::put('public/avatars/' . $filename, $imgData);
+
+        $user->avatar = $filename;
+        $user->save();
+        
+    }
+
+    public function showAvatarForm(){
+        return view('avatar-form');
+    }
+
     public function profile(User $user){
         //return $user->posts()->get(); //This method is set up in the User model; creates relationship between User and Post
         
         return view('profile-posts', [
             'user' =>  $user, //Passing in data that will be converted to a variable for view this is going to
             'posts' =>  $user->posts()->latest()->get(),
+            'username'  =>  $user->username,
             'postCount' =>  $user->posts()->count()
         ]);
     }
