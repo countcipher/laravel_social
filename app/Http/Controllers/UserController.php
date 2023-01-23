@@ -43,7 +43,8 @@ class UserController extends Controller
             'user' =>  $user, //Passing in data that will be converted to a variable for view this is going to
             'posts' =>  $user->posts()->latest()->get(),
             'username'  =>  $user->username,
-            'postCount' =>  $user->posts()->count()
+            'postCount' =>  $user->posts()->count(),
+            'avatar'    =>  $user->avatar
         ]);
     }
 

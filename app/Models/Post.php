@@ -19,7 +19,7 @@ class Post extends Model
     //This method creates relationship between Post and User (joining tables)
     //The name of the function becomes the name of the variable
     //to use to get the dynamic content.
-    //See 'single-post.blade.php' for using $post->user-username
+    //See 'single-post.blade.php' for using $post->user-username --count cipher
     public function user(){
         return $this->belongsTo(User::class, 'user_id');
     }
