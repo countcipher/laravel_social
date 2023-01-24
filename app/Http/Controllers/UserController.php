@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Follow;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
@@ -45,6 +46,13 @@ class UserController extends Controller
     }
 
     public function profile(User $user){
+        $currentlyFollowing = 0;
+
+        if(auth()->check()){
+            $currentlyFollowing = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
+        }
+       
+
         //return $user->posts()->get(); //This method is set up in the User model; creates relationship between User and Post
         
         return view('profile-posts', [
@@ -52,7 +60,8 @@ class UserController extends Controller
             'posts' =>  $user->posts()->latest()->get(),
             'username'  =>  $user->username,
             'postCount' =>  $user->posts()->count(),
-            'avatar'    =>  $user->avatar
+            'avatar'    =>  $user->avatar,
+            'currentlyFollowing'    =>  $currentlyFollowing
         ]);
     }
 

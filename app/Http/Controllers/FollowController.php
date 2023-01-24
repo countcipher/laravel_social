@@ -15,13 +15,14 @@ class FollowController extends Controller
         }
 
         // you cannot follow someone you're already following
-        $existCheck = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
+        $existCheck = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->username]])->count();
 
         if($existCheck){
             return back()->with('failure', 'You are already following that user');
 
-            return back()->with('success', 'User successfully followed');
         }
+
+        return back()->with('success', 'User successfully followed');
 
         $newFollow = new Follow;
         $newFollow->user_id = auth()->user()->id;
@@ -29,7 +30,9 @@ class FollowController extends Controller
         $newFollow->save();
     }
 
-    public function removeFollow(){
-        
+    public function removeFollow(User $user){
+        Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->delete();
+
+        return back()->with('success', 'User successfully unfollowed');
     }
 }
