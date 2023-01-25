@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('follows', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained(); //'constrained' keeps a row from being made if it's not unique
+            $table->foreignId('user_id')->constrained(); //'constrained' keeps a row from being made if 'user_id' is not a valid id
             $table->unsignedBigInteger('followeduser');
             $table->foreign('followeduser')->references('id')->on('users');
             $table->timestamps();
