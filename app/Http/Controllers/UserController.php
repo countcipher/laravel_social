@@ -65,6 +65,40 @@ class UserController extends Controller
         ]);
     }
 
+    public function profileFollowers(User $user){
+        $currentlyFollowing = 0;
+
+        if(auth()->check()){
+            $currentlyFollowing = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
+        }
+        
+        return view('profile-followers', [
+            'user'  =>  $user,
+            'posts' =>  $user->posts()->latest()->get(),
+            'username'  =>  $user->username,
+            'postCount' =>  $user->posts()->count(),
+            'avatar'    =>  $user->avatar,
+            'currentlyFollowing'    =>  $currentlyFollowing
+        ]);
+    }
+
+    public function profileFollowing(User $user){
+        $currentlyFollowing = 0;
+
+        if(auth()->check()){
+            $currentlyFollowing = Follow::where([['user_id', '=', auth()->user()->id], ['followeduser', '=', $user->id]])->count();
+        }
+        
+        return view('profile-following', [
+            'user'  =>  $user,
+            'posts' =>  $user->posts()->latest()->get(),
+            'username'  =>  $user->username,
+            'postCount' =>  $user->posts()->count(),
+            'avatar'    =>  $user->avatar,
+            'currentlyFollowing'    =>  $currentlyFollowing
+        ]);
+    }
+
     public function logout(){
         auth()->logout();
         return redirect('/')->with('success', 'You are now logged out');
