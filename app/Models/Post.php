@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Post extends Model
 {
+    use Searchable;
     use HasFactory;
 
     protected $fillable = [
@@ -14,6 +16,14 @@ class Post extends Model
         'body',
         'user_id'
     ];
+
+    //For search functionality, this function must be named this --count cipher
+    public function toSearchableArray(){
+        return [
+            'title' =>  $this->title,
+            'body'  =>  $this->body
+        ];
+    }
 
     //Name of method doesn't have to be same as the model name.
     //This method creates relationship between Post and User (joining tables)
