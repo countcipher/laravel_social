@@ -92,8 +92,8 @@ class UserController extends Controller
     }
 
     public function logout(){
+        event(new OurExampleEvent(['username' => auth()->user()->username, 'action' => 'logout']));
         auth()->logout();
-        event(new OurExampleEvent());
         return redirect('/')->with('success', 'You are now logged out');
     }
 
@@ -116,7 +116,7 @@ class UserController extends Controller
             'password' => $incomingFields['loginpassword'],
             ])){
                 $request->session()->regenerate();
-                event(new OurExampleEvent());
+                event(new OurExampleEvent(['username' => auth()->user()->username, 'action' => 'login']));
                 return redirect('/')->with('success', 'You are logged in');
         }else{
             return redirect('/')->with('failure', 'Invalid login');
